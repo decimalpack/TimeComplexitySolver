@@ -12,23 +12,39 @@
 
 ## Example
 ```python
-# fact.py
+# insertionSort.py
 # Target Program
 import sys
 
-def factorial(N):
-    if N==0: return 1
-    return N*factorial(N-1)
+
+def insertionSort(arr):
+    for i in range(1, len(arr)):
+        key = arr[i]
+        j = i - 1
+        while j >= 0 and key < arr[j]:
+            arr[j + 1] = arr[j]
+            j -= 1
+        arr[j + 1] = key
+    return arr
+
 
 N = int(sys.argv[1])
-print(factorial(N))
+# best = list(range(N))[::-1] # O(N^2)
+best = list(range(N)) # O(N)
+print(insertionSort(best))
 ```
 
 ```shell
-./main -m=100 -M=20000000 --warmup=10 "python3 fact.py" 
+ ./main -m=128 -M=20000 -w=10 "python3 insertionSort.py"
 # Outputs: 
-# Input 13107200 took 0.0009240060000000015
-# 6.598349999999992e-06 * N^1
+
+# Worst Case
+# Input 16384 took 0.001863859999999985
+# 3.044385002286234e-07 * N^2
+
+# Best Case
+# Input 16384 took 0.002514685000000003
+# 4.851671874999997e-06 * N^1
 ```
 
 ## References

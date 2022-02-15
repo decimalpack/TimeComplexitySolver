@@ -22,7 +22,7 @@ proc main(programName:string,MIN_N:int, MAX_N:int64, warmup:int64) {.gcsafe}=
     stdout.write "\n"
     let
         avgTime= (0..<timingData.len-1).toSeq.map(i => timingData[i+1]/timingData[i]).max
-        b = (math.log2 avgTime.ceil).ceil
+        b = avgTime.ceil.log2
         a = timingData[0] / MIN_N.toFloat.pow(b)
     echo fmt"{a} * N^{b.toInt}"
 
