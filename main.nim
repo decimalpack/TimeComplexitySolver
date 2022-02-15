@@ -28,7 +28,7 @@ proc main(programName:string,MIN_N:int, MAX_N:int64, warmup:int64) {.gcsafe}=
                         .ceil
         b = convergeTime.log2
         a = timingData[0] / MIN_N.toFloat.pow(b)
-    echo fmt"{a} * N^{b.toInt}"
+    echo fmt"{a} * N^{b.round}"
 
 
 proc writeHelp() = 
