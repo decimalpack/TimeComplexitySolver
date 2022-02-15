@@ -39,12 +39,12 @@ print(insertionSort(best))
 # Outputs: 
 
 # Worst Case
-# Input 16384 took 0.001863859999999985
-# 3.044385002286234e-07 * N^2
+# Input 16384 took 18 seconds, 860 milliseconds, 852 microseconds, and 214 nanoseconds
+# 1274.018112000001 * N^2
 
 # Best Case
-# Input 16384 took 0.002514685000000003
-# 4.851671874999997e-06 * N^1
+#Input 16384 took 39 milliseconds, 890 microseconds, and 946 nanoseconds
+#291802.65625 * N^1
 ```
 
 ## References

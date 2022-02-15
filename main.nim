@@ -1,4 +1,4 @@
-import std/[times, parseopt, strutils, os, osproc, strformat, sequtils, sugar, math]
+import std/[monotimes, times, parseopt, strutils, os, osproc, strformat, sequtils, sugar, math]
 
 proc runProgram(name:string,N:int64) =
     discard execCmdEx(fmt"{name} {N}")
@@ -8,21 +8,25 @@ proc main(programName:string,MIN_N:int, MAX_N:int64, warmup:int64) {.gcsafe}=
     var N = MIN_N
     for i in 1..warmup:
         runProgram(programName,i*N)
-    var timingData = newSeq[float](0)
+    var timingData = newSeq[float64](0)
     N = MIN_N
     while N<=MAX_N:
-        let startTime = cpuTime()
+        let startTime = getMonoTime()
         runProgram(programName,N)
-        let endTime = cpuTime()
+        let endTime = getMonoTime()
         stdout.write fmt"Input {N} took {endTime - startTime}"
         stdout.write "\r"
         stdout.flushFile
-        timingData.add(endTime - startTime)
+        timingData.add((endTime - startTime).inNanoseconds.float64)
         N*=2
     stdout.write "\n"
     let
-        avgTime= (0..<timingData.len-1).toSeq.map(i => timingData[i+1]/timingData[i]).max
-        b = avgTime.ceil.log2
+        convergeTime= (0..<timingData.len-1)
+                        .toSeq
+                        .map(i => timingData[i+1] / timingData[i])
+                        .max
+                        .ceil
+        b = convergeTime.log2
         a = timingData[0] / MIN_N.toFloat.pow(b)
     echo fmt"{a} * N^{b.toInt}"
 
